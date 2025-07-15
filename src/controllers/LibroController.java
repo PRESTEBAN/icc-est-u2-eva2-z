@@ -8,35 +8,32 @@ import models.Book;
 
 public class LibroController {
 
+    public Map<Book, Book> procesarLibros(List<Book> libros) {
 
-    public Map<Book, Book> procesarLibros(List<Book> libros){
-        
-    
-       Comparator<Book> comp = new Comparator() {
-           @Override
-           public int compare(Book lib1, Book lib2) {
-               int result =  lib1.getTitulo().compareTo(lib2.getTitulo());
+        Comparator<Book> comp = new Comparator<Book>() {
+            @Override
+            public int compare(Book lib1, Book lib2) {
 
-               if (result == 0 ) {
-                   return Integer.compare(lib1.getAnio(), lib2.getAnio());
-               }
+                int result = lib2.getTitulo().compareTo(lib1.getTitulo());
 
-               return result;
-           }
+                if (result == 0) {
+                    result = Integer.compare(lib1.getAnio(), lib2.getAnio());
+                }
 
+                if (result == 0) {
+                    return 0;
+                }
 
-       };
+                return result;
+            }
+        };
 
-        Map<Book, Book> lib = new TreeMap<>(comp);
-        
+        Map<Book, Book> libMap = new TreeMap<>(comp);
+
         for (Book book : libros) {
-             lib.put(book, book);
-
+            libMap.put(book, book);
         }
 
-        
-
-         return null;
-
+        return libMap;
     }
 }
